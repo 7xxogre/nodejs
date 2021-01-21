@@ -48,7 +48,8 @@ var reservation = require('./lib/reservation');
 var login = require('./lib/login');
 var storemap = require('./lib/storemap');
 var menu = require('./lib/menu');
-
+var main_page = require('./lib/main_page');
+var mypage = require('./lib/mypage');
 
 app.use(session({
  secret: '@#@$MYSIGN#@$#$',
@@ -68,22 +69,7 @@ app.use(compression());
 
 // 메인 페이지
 app.get('/', function(request, response){
-  var title = 'Welcome';
-  var logined = false;
-  var sess = request.session;
-  if(sess !== undefined)
-  {
-    if(sess.isLogined === true)
-    {
-      logined = true;
-    }
-  }
-  var head = template.header(template.login(logined));
-
-  var html = template.HTML(title, head,
-  `  `
-  );
-  response.send(html);
+  main_page.get_main(request, response);
 })
 // 오시는길 페이지
 app.get('/store', function(request, response){
@@ -93,7 +79,6 @@ app.get('/store', function(request, response){
 app.get('/menu/:menuId', function(request, response){
   menu.get_menu(request,response);
 })
-
 // 로그인 페이지
 app.get('/login', function(request, response){
   login.login_page(request, response);
@@ -122,6 +107,14 @@ app.get('/sign_up', function(request, response){
 app.post('/sign_up_process', function(request, response){
   login.sign_up_process(request, response);
 })
+// 정보 변경 폼
+app.get('/update_inform', function(request, response){
+  mypage.update_inform(request, response);
+})
+// 정보 변경 api
+app.post('/update_inform_process', function(request, response){
+  mypage.update_inform_process(request, response);
+})
 //리뷰 페이지
 app.get('/review', function(request, response){
   review.review_page(request, response);
@@ -142,6 +135,7 @@ app.post('/reservation_process', function(request, response){
 app.get('/reservation_delete', function(request, response){
   reservation.reservation_delete(request, response);
 })
+
 
 
 // 에러시 출력 페이지
