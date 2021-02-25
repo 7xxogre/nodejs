@@ -51,7 +51,7 @@ a {
 }
 .btn {
   border: 2px solid gray;
-  background: none;
+  background-color: var(--background-color);
   font-size: 12px;
   cursor: pointer;
   margin: 5px;
